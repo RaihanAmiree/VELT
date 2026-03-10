@@ -107,7 +107,13 @@ export default function FeaturesSection() {
           gap: 16px; max-width: 1400px; margin: 0 auto; position: relative;
         }
         @media (max-width: 1024px) { .feat-grid { grid-template-columns: repeat(2,1fr); } }
-        @media (max-width: 560px)  { .feat-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 560px)  {
+          .feat-grid { grid-template-columns: 1fr; }
+          /* Reset the upward lift on mobile so accent card doesn't overlap the card above it */
+          .feat-card--accent,
+          .feat-card--accent.feat-card--visible { transform: translateY(0) scale(1); }
+          .feat-card--accent:hover { transform: translateY(-6px) scale(1.01) !important; }
+        }
 
         /* Card base */
         .feat-card {
