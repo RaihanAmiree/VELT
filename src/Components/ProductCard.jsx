@@ -191,7 +191,7 @@ export default function ProductCard({ product }) {
 
       <div
         className="pc-card"
-        onClick={() => navigate(`/products/${product.id}`)}
+        onClick={() => navigate(`/product/${product.id}`)}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         style={{

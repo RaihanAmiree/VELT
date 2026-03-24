@@ -5,7 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
 import About from "./Pages/About";
 import Products from "./Pages/Products";
-import ProductDetails from "./Pages/ProductDetails";
+import ProductDetailsPage from "./Pages/ProductDetails";
 import Accessories from "./Pages/Accessories";
 import Comparison from "./Pages/Comparison";
 import Support from "./Pages/Support";
@@ -24,7 +24,7 @@ const App = () => {
       <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/products" element={<Products />} />
-        <Route path="/product/:id" element={<ProductDetails />} />
+        <Route path="/product/:id" element={<ProductDetailsPage />} />
         <Route path="/accessories" element={<Accessories />} />
         <Route path="/comparison" element={<Comparison />} />
         <Route path="/support" element={<Support />} />

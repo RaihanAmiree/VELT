@@ -630,9 +630,6 @@ export default function AccessoriesPage() {
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;600;700&display=swap');
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { margin: 0; }
-
         @keyframes ap-up {
           from { opacity: 0; transform: translateY(14px); }
           to   { opacity: 1; transform: translateY(0); }
