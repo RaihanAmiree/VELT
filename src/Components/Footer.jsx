@@ -15,8 +15,8 @@ const navLinks = [
   { label: "Accessories",     to: "/accessories" },
   { label: "About Us",        to: "/about" },
   { label: "Service Support", to: "/support" },
-  { label: "Find a Store",    to: "/stores" },
-  { label: "Schedule a Ride", to: "/schedule" },
+  { label: "Wishlist",    to: "/wishlist" },
+  { label: "Cart", to: "/cart" },
 ];
 
 const supportLinks = [

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useTheme } from "../ThemeContext";
 import { darkTheme, lightTheme } from "../theme";
 
-// Socials
+// RESTORED: Your original Social SVG icons
 const socials = [
   { label: "YouTube", href: "#", icon: (<svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z" /></svg>) },
   { label: "Instagram", href: "#", icon: (<svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.2 4.8 1.7 5 5 .1 1.3.1 1.6.1 4.8s0 3.5-.1 4.8c-.2 3.3-1.7 4.8-5 5-1.3.1-1.6.1-4.9.1s-3.5 0-4.8-.1c-3.3-.2-4.8-1.7-5-5C2 16.5 2 16.2 2 12s0-3.5.1-4.8c.2-3.3 1.7-4.8 5-5C8.5 2.2 8.8 2.2 12 2.2zm0-2.2C8.7 0 8.3 0 7 .1 2.7.3.3 2.7.1 7 0 8.3 0 8.7 0 12s0 3.7.1 5c.2 4.3 2.6 6.7 7 6.9 1.3.1 1.7.1 5 .1s3.7 0 5-.1c4.3-.2 6.8-2.6 7-7 .1-1.3.1-1.7.1-5s0-3.7-.1-5C23.7 2.7 21.3.3 17 .1 15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4A6.2 6.2 0 0 0 12 5.8zm0 10.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.4 1.4 0 1 0 0 2.8 1.4 1.4 0 0 0 0-2.8z" /></svg>) },
@@ -37,14 +37,12 @@ const ContactSection = () => {
     background: theme.bgSecondary,
     color: theme.textPrimary,
     outline: "none",
+    boxSizing: "border-box",
   };
 
   return (
-    <>
-      <div
-        className="contact-container"
-        style={{ background: theme.bgPrimary }}
-      >
+    <div id="contact" className="contact-outer-wrapper" style={{ background: theme.bgPrimary }}>
+      <div className="contact-container">
         {/* LEFT */}
         <div
           className="contact-card"
@@ -53,27 +51,42 @@ const ContactSection = () => {
             border: `1px solid ${theme.cardBorder}`,
           }}
         >
-          <h3 style={{ color: theme.textPrimary }}>Call To Us</h3>
-          <p style={{ color: theme.textSecondary }}>
+          <div className="info-header-row">
+            <div className="icon-circle" style={{ background: theme.accent }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+            </div>
+            <h3 style={{ color: theme.textPrimary, margin: 0 }}>Call To Us</h3>
+          </div>
+          <p style={{ color: theme.textSecondary, marginBottom: "8px" }}>
             We are available 24/7, 7 days a week.
           </p>
           <p style={{ fontWeight: "bold", color: theme.textPrimary }}>
             Phone: +880 1886-715026
           </p>
 
-          <hr style={{ margin: "20px 0", borderColor: theme.divider }} />
+          <hr style={{ margin: "25px 0", border: "none", borderTop: `1px solid ${theme.divider}` }} />
 
-          <h3 style={{ color: theme.textPrimary }}>Write To Us</h3>
-          <p style={{ color: theme.textSecondary }}>
+          <div className="info-header-row">
+            <div className="icon-circle" style={{ background: theme.accent }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </div>
+            <h3 style={{ color: theme.textPrimary, margin: 0 }}>Write To Us</h3>
+          </div>
+          <p style={{ color: theme.textSecondary, marginBottom: "8px" }}>
             Fill out our form and we will contact you within 24 hours.
           </p>
           <p style={{ color: theme.textPrimary }}>
             Email: veltdrt@gmail.com
           </p>
 
-          <hr style={{ margin: "20px 0", borderColor: theme.divider }} />
+          <hr style={{ margin: "25px 0", border: "none", borderTop: `1px solid ${theme.divider}` }} />
 
-          <p style={{ color: theme.textSecondary }}>Follow Us</p>
+          <p style={{ color: theme.textSecondary, marginBottom: "12px", fontWeight: "600", fontSize: "14px" }}>Follow Us</p>
 
           <div className="footer-socials">
             {socials.map((s) => (
@@ -115,6 +128,7 @@ const ContactSection = () => {
             <div className="form-row">
               <input
                 style={inputStyle}
+                className="themed-input"
                 name="name"
                 placeholder="Your Name *"
                 value={formData.name}
@@ -122,6 +136,7 @@ const ContactSection = () => {
               />
               <input
                 style={inputStyle}
+                className="themed-input"
                 name="email"
                 placeholder="Your Email *"
                 value={formData.email}
@@ -129,6 +144,7 @@ const ContactSection = () => {
               />
               <input
                 style={inputStyle}
+                className="themed-input"
                 name="phone"
                 placeholder="Your Phone *"
                 value={formData.phone}
@@ -138,6 +154,7 @@ const ContactSection = () => {
 
             <textarea
               style={inputStyle}
+              className="themed-input"
               name="message"
               placeholder="Your Message"
               rows="6"
@@ -147,13 +164,15 @@ const ContactSection = () => {
 
             <div className="form-actions">
               <button
+                className="contact-submit-btn"
                 style={{
-                  padding: "12px 24px",
+                  padding: "12px 32px",
                   background: theme.accent,
                   color: "#fff",
                   border: "none",
                   borderRadius: "8px",
                   cursor: "pointer",
+                  fontWeight: "600"
                 }}
               >
                 Send Message
@@ -163,18 +182,45 @@ const ContactSection = () => {
         </div>
       </div>
 
-      {/* STYLES */}
       <style>{`
+        .contact-outer-wrapper {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          min-height: 100vh;
+          width: 100%;
+          padding: 40px 20px;
+          box-sizing: border-box;
+        }
+
         .contact-container {
           display: grid;
-          grid-template-columns: 1fr 2fr;
-          gap: 20px;
-          padding: 40px;
+          grid-template-columns: 1fr 2.2fr;
+          gap: 30px;
+          max-width: 1170px;
+          width: 100%;
+          margin: 0 auto;
         }
 
         .contact-card {
           border-radius: 16px;
-          padding: 25px;
+          padding: 35px;
+        }
+
+        .info-header-row {
+          display: flex;
+          align-items: center;
+          gap: 15px;
+          margin-bottom: 15px;
+        }
+
+        .icon-circle {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
 
         .footer-socials {
@@ -191,33 +237,40 @@ const ContactSection = () => {
           padding: 8px;
           border-radius: 8px;
           text-decoration: none;
+          transition: transform 0.2s;
         }
+        .social-btn:hover { transform: translateY(-2px); }
 
         .contact-form {
           display: grid;
-          gap: 15px;
+          gap: 20px;
         }
 
         .form-row {
           display: grid;
           grid-template-columns: 1fr 1fr 1fr;
-          gap: 10px;
+          gap: 15px;
         }
 
         .form-actions {
           text-align: right;
         }
 
-        /* Focus effect WITHOUT breaking theme borders */
-        input:focus,
-        textarea:focus {
-          box-shadow: 0 0 0 2px rgba(0,0,0,0.08);
+        .contact-submit-btn:hover {
+          opacity: 0.9;
         }
 
-        /* Tablet */
+        /* SINGLE BORDER FOCUS NO SHADOW */
+        .themed-input:focus {
+          border-color: ${theme.accent} !important;
+          box-shadow: none !important;
+        }
+
+        /* Responsive View Fixes */
         @media (max-width: 992px) {
           .contact-container {
             grid-template-columns: 1fr;
+            max-width: 600px;
           }
 
           .form-row {
@@ -227,20 +280,13 @@ const ContactSection = () => {
           .form-actions {
             text-align: center;
           }
-        }
-
-        /* Mobile */
-        @media (max-width: 576px) {
-          .contact-container {
-            padding: 20px;
-          }
-
-          .contact-card {
-            padding: 15px;
+          
+          .contact-submit-btn {
+            width: 100%;
           }
         }
       `}</style>
-    </>
+    </div>
   );
 };
 
