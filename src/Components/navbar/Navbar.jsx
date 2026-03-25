@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { useTheme } from "../ThemeContext";
-import Logo from "../assets/Logo.webp";
+import { useTheme } from "../../ThemeContext";
+import Logo from "../../assets/Logo.webp";
+import CartWishlistBadges from "./CartWishlistBadges";
 
 function SunIcon() {
   return (
@@ -283,6 +284,7 @@ const Navbar = () => {
             ))}
 
           </div>
+          <CartWishlistBadges />
         </div>
 
       </nav>
