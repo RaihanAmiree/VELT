@@ -4,6 +4,7 @@ import ProductTable from "../Components/Producttable";
 import ProductDetailHero from "../Components/Productdetailhero";
 import ScrollBikeStats from "../Components/Scrollbikestats";
 import FeatureDetail from "../Components/FeatureDetail";
+import AccessoriesCarousel from "../Components/AccessoriesCarousel";
 
 export default function ProductDetailPage() {
   const { id } = useParams();
@@ -31,15 +32,18 @@ export default function ProductDetailPage() {
   if (!product) return <div>No product found for id: {id}</div>;
 
   return (
-    <>
-      <ProductDetailHero product={product} />
-      <ScrollBikeStats product={product} />
-      <ProductTable product={product} />
+ <>
+  <ProductDetailHero product={product} />
+  <ScrollBikeStats product={product} />
+  <ProductTable product={product} />
 
-      {/* ✅ Feature Section */}
-      {product.features && product.features.length > 0 && (
-        <FeatureDetail features={product.features} />
-      )}
+  {/* ✅ Feature Section */}
+  {product.features && product.features.length > 0 && (
+    <>
+      <FeatureDetail features={product.features} />
+      <AccessoriesCarousel />
     </>
+  )}
+</>
   );
 }

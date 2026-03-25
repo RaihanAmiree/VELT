@@ -6,12 +6,12 @@ import Home from "./Pages/Home";
 import About from "./Pages/About";
 import Products from "./Pages/Products";
 import ProductDetailsPage from "./Pages/ProductDetails";
-import Accessories from "./Pages/Accessories";
 import Comparison from "./Pages/Comparison";
 import Support from "./Pages/Support";
 import Navbar from './Components/Navbar';
 import Footer from './Components/Footer';
 import ScrollToTop from './Components/ScrollToTop';
+import AccessoriesPage from './Pages/Accessories';
 
 const App = () => {
   return (
@@ -25,7 +25,7 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/products" element={<Products />} />
         <Route path="/product/:id" element={<ProductDetailsPage />} />
-        <Route path="/accessories" element={<Accessories />} />
+        <Route path="/accessories" element={<AccessoriesPage />} />
         <Route path="/comparison" element={<Comparison />} />
         <Route path="/support" element={<Support />} />
         <Route path="*" element={<div>Page Not Found</div>} />
