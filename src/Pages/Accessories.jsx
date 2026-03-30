@@ -39,16 +39,16 @@ export default function AccessoriesPage() {
   }, []);
 
   // ── Derived types ─────────────────────────────────────────
-  // Raw category names only — AccessoriesFilter prepends "All" itself
   const types = [...new Set(accessories.map((a) => a.type))];
 
   // ── Filter state ──────────────────────────────────────────
   const [query, setQuery]           = useState("");
   const [activeType, setActiveType] = useState(ALL);
 
-  // Re-key grid only on category change (triggers card-in animation)
+  // Re-key grid only on category change
   const [gridKey, setGridKey] = useState(0);
   const prevTypeRef           = useRef(activeType);
+
   useEffect(() => {
     if (prevTypeRef.current !== activeType) {
       prevTypeRef.current = activeType;
@@ -58,9 +58,12 @@ export default function AccessoriesPage() {
 
   // ── Filtered items ────────────────────────────────────────
   const q = query.toLowerCase().trim();
+
   const filtered = accessories.filter((item) => {
     const matchType = activeType === ALL || item.type === activeType;
-    const matchQ    = !q || [item.name, item.type, item.tagline].some((s) => s.toLowerCase().includes(q));
+    const matchQ    = !q || [item.name, item.type, item.tagline].some((s) =>
+      s.toLowerCase().includes(q)
+    );
     return matchType && matchQ;
   });
 
@@ -94,27 +97,43 @@ export default function AccessoriesPage() {
         }
       `}</style>
 
+      {/* ✅ FIXED: removed inner scroll container */}
       <div
         id="ap-scroll-root"
         style={{
-          minHeight: "100vh", height: "100vh", overflowY: "auto",
-          background: t.bgPrimary, transition: "background 0.5s",
+          minHeight: "100vh",
+          background: t.bgPrimary,
+          transition: "background 0.5s",
           fontFamily: "'Barlow', sans-serif",
         }}
       >
-        {/* Hero — passes category names as pills */}
+        {/* Hero */}
         <AccessoriesHero types={types} />
 
         {/* Loading */}
         {loading && (
-          <div style={{ padding: "80px", textAlign: "center", color: dark ? "#7A7F87" : "#9A9AA0", fontFamily: "'Barlow',sans-serif", letterSpacing: "0.2em", textTransform: "uppercase", fontSize: "0.7rem" }}>
+          <div style={{
+            padding: "80px",
+            textAlign: "center",
+            color: dark ? "#7A7F87" : "#9A9AA0",
+            fontFamily: "'Barlow',sans-serif",
+            letterSpacing: "0.2em",
+            textTransform: "uppercase",
+            fontSize: "0.7rem"
+          }}>
             Loading…
           </div>
         )}
 
         {/* Error */}
         {!loading && error && (
-          <div style={{ padding: "80px", textAlign: "center", color: "#FF5A1F", fontFamily: "'Barlow',sans-serif", fontSize: "0.8rem" }}>
+          <div style={{
+            padding: "80px",
+            textAlign: "center",
+            color: "#FF5A1F",
+            fontFamily: "'Barlow',sans-serif",
+            fontSize: "0.8rem"
+          }}>
             Failed to load Accessories.json: {error}
           </div>
         )}
@@ -134,39 +153,57 @@ export default function AccessoriesPage() {
 
             <div style={{
               padding: "clamp(32px,5vh,52px) clamp(16px,5vw,72px) clamp(56px,9vh,96px)",
-              background: t.bgPrimary, transition: "background 0.5s",
+              background: t.bgPrimary,
+              transition: "background 0.5s",
             }}>
               {/* Section heading */}
-              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: "clamp(20px,3vh,32px)" }}>
-                <div style={{ width: 3, height: 28, background: "#FF5A1F", borderRadius: 2, flexShrink: 0 }} />
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                marginBottom: "clamp(20px,3vh,32px)"
+              }}>
+                <div style={{ width: 3, height: 28, background: "#FF5A1F", borderRadius: 2 }} />
+
                 <h2 style={{
                   fontFamily: "'Bebas Neue', sans-serif",
                   fontSize: "clamp(1.5rem,3vw,2.4rem)",
-                  letterSpacing: "0.04em", lineHeight: 1, margin: 0,
-                  color: t.textPrimary, transition: "color 0.4s",
+                  letterSpacing: "0.04em",
+                  margin: 0,
+                  color: t.textPrimary
                 }}>
                   {activeType === ALL ? "All Accessories" : activeType}
                 </h2>
+
                 <span style={{
-                  fontFamily: "'Barlow', sans-serif", fontSize: "0.62rem", fontWeight: 700,
-                  letterSpacing: "0.2em", textTransform: "uppercase",
-                  padding: "4px 10px", borderRadius: 2,
-                  color: "#FF5A1F", background: "rgba(255,90,31,0.08)",
+                  fontSize: "0.62rem",
+                  fontWeight: 700,
+                  letterSpacing: "0.2em",
+                  padding: "4px 10px",
+                  color: "#FF5A1F",
+                  background: "rgba(255,90,31,0.08)",
                   border: "1px solid rgba(255,90,31,0.2)",
                 }}>
                   {filtered.length} item{filtered.length !== 1 ? "s" : ""}
                 </span>
               </div>
 
-              {/* Empty state */}
+              {/* Empty */}
               {filtered.length === 0 ? (
-                <div style={{ padding: "80px 0", textAlign: "center", color: dark ? "#7A7F87" : "#9A9AA0", fontFamily: "'Barlow',sans-serif", fontSize: "0.8rem", letterSpacing: "0.1em" }}>
+                <div style={{
+                  padding: "80px 0",
+                  textAlign: "center",
+                  color: dark ? "#7A7F87" : "#9A9AA0"
+                }}>
                   No results{query ? ` for "${query}"` : ""}
                 </div>
               ) : (
                 <div className="ap-grid" key={gridKey}>
                   {filtered.map((item, i) => (
-                    <div key={item.id} style={{ opacity: 0, animation: `ap-card-in 0.48s ease ${i * 55}ms forwards` }}>
+                    <div key={item.id} style={{
+                      opacity: 0,
+                      animation: `ap-card-in 0.48s ease ${i * 55}ms forwards`
+                    }}>
                       <AccessoryCard item={item} />
                     </div>
                   ))}

@@ -245,6 +245,8 @@ const Navbar = () => {
 
             <div className="flex items-center gap-4">
 
+              <CartWishlistBadges />
+
               <button className="theme-btn" onClick={()=>setDark(d=>!d)}>
                 <span className="theme-btn-label">{dark?"Dark":"Light"}</span>
 

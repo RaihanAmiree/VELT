@@ -8,20 +8,49 @@
  * Wishlist item shape: { ...productFields }
  */
 
-import { createContext, useCallback, useState } from "react";
+import { createContext, useCallback, useState, useEffect } from "react";
 
 export const CartWishlistContext = createContext(null);
 
 export function CartWishlistProvider({ children }) {
-  const [cart, setCart]         = useState([]); // [{ id, name, price, image, type, qty }]
-  const [wishlist, setWishlist] = useState([]); // [{ id, name, price, image, type }]
-  const [toasts, setToasts]     = useState([]); // [{ id, message, kind }]  kind: 'cart'|'wishlist'|'remove'
+
+  // ✅ Load from localStorage on first render
+  const [cart, setCart] = useState(() => {
+    try {
+      const saved = localStorage.getItem("cart");
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  const [wishlist, setWishlist] = useState(() => {
+    try {
+      const saved = localStorage.getItem("wishlist");
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  const [toasts, setToasts] = useState([]); // [{ id, message, kind }]
+
+  // ✅ Save to localStorage whenever data changes
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
+
+  useEffect(() => {
+    localStorage.setItem("wishlist", JSON.stringify(wishlist));
+  }, [wishlist]);
 
   // ── Toast helpers ─────────────────────────────────────────
   const pushToast = useCallback((message, kind = "cart") => {
     const id = Date.now() + Math.random();
     setToasts((prev) => [...prev, { id, message, kind }]);
-    setTimeout(() => setToasts((prev) => prev.filter((t) => t.id !== id)), 3000);
+    setTimeout(() => {
+      setToasts((prev) => prev.filter((t) => t.id !== id));
+    }, 3000);
   }, []);
 
   const dismissToast = useCallback((id) => {
@@ -33,7 +62,9 @@ export function CartWishlistProvider({ children }) {
     setCart((prev) => {
       const exists = prev.find((i) => i.id === item.id);
       if (exists) {
-        return prev.map((i) => i.id === item.id ? { ...i, qty: i.qty + 1 } : i);
+        return prev.map((i) =>
+          i.id === item.id ? { ...i, qty: i.qty + 1 } : i
+        );
       }
       return [...prev, { ...item, qty: 1 }];
     });
@@ -50,7 +81,9 @@ export function CartWishlistProvider({ children }) {
 
   const updateQty = useCallback((id, qty) => {
     if (qty < 1) return;
-    setCart((prev) => prev.map((i) => i.id === id ? { ...i, qty } : i));
+    setCart((prev) =>
+      prev.map((i) => (i.id === id ? { ...i, qty } : i))
+    );
   }, []);
 
   const clearCart = useCallback(() => {
@@ -58,9 +91,13 @@ export function CartWishlistProvider({ children }) {
     pushToast("Cart cleared", "remove");
   }, [pushToast]);
 
-  const isInCart = useCallback((id) => cart.some((i) => i.id === id), [cart]);
+  const isInCart = useCallback(
+    (id) => cart.some((i) => i.id === id),
+    [cart]
+  );
 
   const cartCount = cart.reduce((sum, i) => sum + i.qty, 0);
+
   const cartTotal = cart.reduce((sum, i) => {
     const num = parseFloat(String(i.price).replace(/[^0-9.]/g, ""));
     return sum + (isNaN(num) ? 0 : num * i.qty);
@@ -70,9 +107,9 @@ export function CartWishlistProvider({ children }) {
   const addToWishlist = useCallback((item) => {
     setWishlist((prev) => {
       if (prev.find((i) => i.id === item.id)) return prev;
+      pushToast(`${item.name} added to wishlist`, "wishlist");
       return [...prev, item];
     });
-    pushToast(`${item.name} added to wishlist`, "wishlist");
   }, [pushToast]);
 
   const removeFromWishlist = useCallback((id) => {
@@ -100,7 +137,10 @@ export function CartWishlistProvider({ children }) {
     pushToast("Wishlist cleared", "remove");
   }, [pushToast]);
 
-  const isInWishlist = useCallback((id) => wishlist.some((i) => i.id === id), [wishlist]);
+  const isInWishlist = useCallback(
+    (id) => wishlist.some((i) => i.id === id),
+    [wishlist]
+  );
 
   // ── Move wishlist → cart ──────────────────────────────────
   const moveToCart = useCallback((id) => {
@@ -109,7 +149,11 @@ export function CartWishlistProvider({ children }) {
       if (item) {
         setCart((cartPrev) => {
           const exists = cartPrev.find((i) => i.id === id);
-          if (exists) return cartPrev.map((i) => i.id === id ? { ...i, qty: i.qty + 1 } : i);
+          if (exists) {
+            return cartPrev.map((i) =>
+              i.id === id ? { ...i, qty: i.qty + 1 } : i
+            );
+          }
           return [...cartPrev, { ...item, qty: 1 }];
         });
         pushToast(`${item.name} moved to cart`, "cart");
@@ -119,20 +163,37 @@ export function CartWishlistProvider({ children }) {
   }, [pushToast]);
 
   return (
-    <CartWishlistContext.Provider value={{
-      // state
-      cart, wishlist, toasts,
-      cartCount, cartTotal,
-      wishlistCount: wishlist.length,
-      // cart
-      addToCart, removeFromCart, updateQty, clearCart, isInCart,
-      // wishlist
-      addToWishlist, removeFromWishlist, toggleWishlist, clearWishlist, isInWishlist,
-      // cross
-      moveToCart,
-      // toast
-      dismissToast,
-    }}>
+    <CartWishlistContext.Provider
+      value={{
+        // state
+        cart,
+        wishlist,
+        toasts,
+        cartCount,
+        cartTotal,
+        wishlistCount: wishlist.length,
+
+        // cart
+        addToCart,
+        removeFromCart,
+        updateQty,
+        clearCart,
+        isInCart,
+
+        // wishlist
+        addToWishlist,
+        removeFromWishlist,
+        toggleWishlist,
+        clearWishlist,
+        isInWishlist,
+
+        // cross
+        moveToCart,
+
+        // toast
+        dismissToast,
+      }}
+    >
       {children}
     </CartWishlistContext.Provider>
   );
