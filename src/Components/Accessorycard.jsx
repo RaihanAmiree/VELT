@@ -1,12 +1,24 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../ThemeContext";
+import { useCartWishlist } from "../hooks/useCartWishlist";
 
 export default function AccessoryCard({ item }) {
   const { dark } = useTheme();
   const navigate = useNavigate();
   const [hovered, setHovered] = useState(false);
   const [imgErr, setImgErr] = useState(false);
+
+  const {
+    addToCart,
+    removeFromCart,
+    isInCart,
+    toggleWishlist,
+    isInWishlist,
+  } = useCartWishlist();
+
+  const inCart = isInCart(item.id);
+  const inWishlist = isInWishlist(item.id);
 
   return (
     <>
@@ -182,40 +194,150 @@ export default function AccessoryCard({ item }) {
 
       <div
         className="ac-card"
-        onClick={() => navigate(`/accessories/${item.id}`)}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         style={{
           background: dark ? "#16171A" : "#FFFFFF",
-          border: `1px solid ${hovered ? "rgba(255,90,31,0.3)" : dark ? "rgba(194,197,204,0.07)" : "#D9D9DE"}`,
-          boxShadow: hovered
-            ? dark
-              ? "0 24px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,90,31,0.15)"
-              : "0 24px 60px rgba(0,0,0,0.1), 0 0 0 1px rgba(255,90,31,0.1)"
-            : dark
-              ? "0 4px 20px rgba(0,0,0,0.4)"
-              : "0 2px 12px rgba(0,0,0,0.05)",
+          border: `1px solid ${hovered
+              ? "rgba(255,90,31,0.3)"
+              : dark
+                ? "rgba(194,197,204,0.07)"
+                : "#D9D9DE"
+            }`,
         }}
       >
-        {/* Image */}
+        {/* IMAGE */}
         <div
           className="ac-img-wrap"
           style={{ background: dark ? "#0f1012" : "#F1F1F1" }}
         >
           <span className="ac-type-badge">{item.type}</span>
 
-          {item.badge && (
-            <span
-              className="ac-new-badge"
-              style={
-                item.badge === "New"
-                  ? { background: "rgba(255,90,31,0.12)", color: "#FF5A1F", border: "1px solid rgba(255,90,31,0.25)" }
-                  : { background: dark ? "rgba(194,197,204,0.08)" : "rgba(0,0,0,0.06)", color: dark ? "#C2C5CC" : "#111111", border: `1px solid ${dark ? "rgba(194,197,204,0.12)" : "#D9D9DE"}` }
-              }
-            >
-              {item.badge}
-            </span>
-          )}
+          {/* ❤️ Wishlist Button */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleWishlist(item);
+            }}
+            style={{
+              position: "absolute",
+              top: 14,
+              right: 50,
+              zIndex: 3,
+
+              width: 32,
+              height: 32,
+              borderRadius: "50%",
+
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+
+              border: "1px solid rgba(255,255,255,0.12)",
+              background: inWishlist
+                ? "rgba(224,68,90,0.2)"
+                : "rgba(0,0,0,0.35)",
+
+              color: "#fff",
+              cursor: "pointer",
+              padding: 0,
+            }}
+          >
+            {inWishlist ? (
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="#e0445a"
+                stroke="#e0445a"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
+      2 6 4 4 6.5 4c1.74 0 3.41 1.01 4.13 2.44h.74
+      C11.09 5.01 12.76 4 14.5 4 17 4 19 6 19 8.5
+      c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+            ) : (
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="rgba(255,255,255,0.9)"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
+      2 6 4 4 6.5 4c1.74 0 3.41 1.01 4.13 2.44h.74
+      C11.09 5.01 12.76 4 14.5 4 17 4 19 6 19 8.5
+      c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+            )}
+          </button>
+
+          {/* 🛒 Cart Button */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              inCart ? removeFromCart(item.id) : addToCart(item);
+            }}
+            style={{
+              position: "absolute",
+              top: 14,
+              right: 14,
+              zIndex: 3,
+
+              width: 32,
+              height: 32,
+              borderRadius: "50%",
+
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+
+              border: "1px solid rgba(255,255,255,0.12)",
+              background: inCart
+                ? "rgba(255,90,31,0.18)"
+                : "rgba(0,0,0,0.35)",
+
+              color: "#fff",
+              cursor: "pointer",
+              padding: 0,
+            }}
+          >
+            {inCart ? (
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#FF5A1F"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            ) : (
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="rgba(255,255,255,0.9)"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="9" cy="21" r="1" />
+                <circle cx="20" cy="21" r="1" />
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+              </svg>
+            )}
+          </button>
 
           <div className="ac-glow" style={{ opacity: hovered ? 1 : 0.35 }} />
 
@@ -225,72 +347,47 @@ export default function AccessoryCard({ item }) {
               alt={item.name}
               className="ac-img"
               onError={() => setImgErr(true)}
-              style={{
-                filter: dark
-                  ? "drop-shadow(0 14px 28px rgba(0,0,0,0.65))"
-                  : "drop-shadow(0 8px 18px rgba(0,0,0,0.1))",
-              }}
             />
           ) : (
-            <div style={{ width: "70%", height: "60%", display: "flex", alignItems: "center", justifyContent: "center", opacity: 0.15 }}>
-              <svg viewBox="0 0 80 60" fill="none" width="100%" height="100%">
-                <rect x="10" y="10" width="60" height="40" rx="5" fill={dark ? "#C2C5CC" : "#111"} />
-                <rect x="22" y="22" width="36" height="24" rx="3" fill={dark ? "#0B0B0C" : "#F1F1F1"} />
-              </svg>
-            </div>
+            <div style={{ opacity: 0.15 }}>No Image</div>
           )}
         </div>
 
-        {/* Body */}
+        {/* BODY */}
         <div className="ac-body">
-          <div>
-            <h3 className="ac-name" style={{ color: dark ? "#C2C5CC" : "#111111" }}>{item.name}</h3>
-            <p className="ac-tagline" style={{ color: dark ? "#7A7F87" : "#6E6E73" }}>{item.tagline}</p>
-          </div>
+          <h3
+            className="ac-name"
+            style={{ color: dark ? "#C2C5CC" : "#111111" }}
+          >
+            {item.name}
+          </h3>
 
-          {/* Specs */}
-          {item.specs?.length > 0 && (
-            <div className="ac-specs" style={{ borderTop: `1px solid ${dark ? "rgba(194,197,204,0.07)" : "#D9D9DE"}` }}>
-              {item.specs.slice(0, 3).map((s, i) => (
-                <div key={s.label} className="ac-spec">
-                  {i > 0 && (
-                    <span style={{
-                      position: "absolute", left: 0, top: 8, bottom: 8, width: 1,
-                      background: dark ? "rgba(194,197,204,0.07)" : "#D9D9DE",
-                    }} />
-                  )}
-                  <span className="ac-spec-val" style={{ color: dark ? "#C2C5CC" : "#111111" }}>{s.value}</span>
-                  <span className="ac-spec-label" style={{ color: dark ? "#7A7F87" : "#9A9AA0" }}>{s.label}</span>
-                </div>
-              ))}
-            </div>
-          )}
+          <p
+            className="ac-tagline"
+            style={{ color: dark ? "#7A7F87" : "#6E6E73" }}
+          >
+            {item.tagline}
+          </p>
 
-          {/* Price + CTA */}
+          {/* PRICE ONLY (CTA removed) */}
           <div
             className="ac-footer"
             style={{
-              borderColor: dark ? "rgba(194,197,204,0.07)" : "#D9D9DE",
-              background: dark ? "rgba(194,197,204,0.03)" : "#F9F9F9",
+              justifyContent: "flex-start",
+              borderColor: dark
+                ? "rgba(194,197,204,0.07)"
+                : "#D9D9DE",
+              background: dark
+                ? "rgba(194,197,204,0.03)"
+                : "#F9F9F9",
             }}
           >
-            <span className="ac-price" style={{ color: dark ? "#C2C5CC" : "#111111" }}>
+            <span
+              className="ac-price"
+              style={{ color: dark ? "#C2C5CC" : "#111111" }}
+            >
               {item.price}
             </span>
-            <div className="ac-cta">
-              <span className="ac-cta-label" style={{ color: dark ? "#7A7F87" : "#6E6E73" }}>View Item</span>
-              <div
-                className="ac-arrow"
-                style={{
-                  background: dark ? "rgba(194,197,204,0.08)" : "rgba(0,0,0,0.06)",
-                  color: dark ? "#C2C5CC" : "#111111",
-                }}
-              >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
-              </div>
-            </div>
           </div>
         </div>
       </div>

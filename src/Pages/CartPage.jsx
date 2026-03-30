@@ -43,7 +43,18 @@ export default function CartPage() {
         @keyframes cp-in { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
       `}</style>
 
-      <div style={{ minHeight: "100vh", background: t.bg, transition: "background 0.5s", fontFamily: "'Barlow',sans-serif", paddingBottom: 80 }}>
+         <div
+  style={{
+    minHeight: "100vh",
+    background: t.bg,
+    transition: "background 0.5s",
+    fontFamily: "'Barlow', sans-serif",
+    paddingTop: "clamp(64px, 8vh, 96px)", // 👈 space for navbar
+    paddingBottom: "80px",
+    boxSizing: "border-box",
+  }}
+>
+
 
         {/* Header */}
         <div style={{ padding: "clamp(32px,5vw,64px) clamp(16px,5vw,72px) 0", display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
