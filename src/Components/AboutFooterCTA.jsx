@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-// Using the requested relative imports
+import { Link } from 'react-router-dom'; // Added this
+// Using your requested relative imports
 import { useTheme } from '../ThemeContext'; 
 import { darkTheme, lightTheme } from '../theme'; 
 
@@ -26,7 +27,7 @@ export default function AboutFooterCTA() {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
-          {/* LEFT: The Final Image Tile (Compatible Size) */}
+          {/* LEFT: The Image Tile */}
           <motion.div 
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -44,7 +45,6 @@ export default function AboutFooterCTA() {
                 className="w-full h-full object-cover brightness-50 group-hover:brightness-90 transition-all duration-1000"
               />
             </div>
-            {/* Geometric Accent Decoration */}
             <div 
               className="absolute -bottom-6 -left-6 w-32 h-32 border-l-2 border-b-2 z-0 opacity-20"
               style={{ borderColor: theme.accent }}
@@ -78,44 +78,43 @@ export default function AboutFooterCTA() {
                 style={{ color: theme.textSecondary }}
               >
                 The electric revolution isn't just about the machine; it's about the partnership. 
-                Whether you need technical calibration or have a query for our team, 
-                our specialized support is ready.
+                Our specialized support is ready to ensure your system stays optimized.
               </p>
 
-              {/* The Bridge to your existing Support Page */}
-              <motion.a
-                href="/support" // Link to your existing support page
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="inline-flex items-center gap-6 group"
-              >
-                <div 
-                  className="w-16 h-16 rounded-full flex items-center justify-center transition-all duration-500 group-hover:rotate-45"
-                  style={{ backgroundColor: theme.accent }}
+              {/* CORRECTED: Using Link instead of href */}
+              <Link to="/support" className="inline-block">
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="flex items-center gap-6 group cursor-pointer"
                 >
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </div>
-                <div className="flex flex-col">
-                  <span 
-                    className="text-2xl font-bold uppercase tracking-widest"
-                    style={{ color: theme.textPrimary, fontFamily: "'Bebas Neue', sans-serif" }}
+                  <div 
+                    className="w-16 h-16 rounded-full flex items-center justify-center transition-all duration-500 group-hover:rotate-45"
+                    style={{ backgroundColor: theme.accent }}
                   >
-                    Enter Support Portal
-                  </span>
-                  <span className="text-xs uppercase tracking-[0.2em] opacity-50" style={{ color: theme.textSecondary }}>
-                    Technical & Sales Assistance
-                  </span>
-                </div>
-              </motion.a>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                  <div className="flex flex-col">
+                    <span 
+                      className="text-2xl font-bold uppercase tracking-widest"
+                      style={{ color: theme.textPrimary, fontFamily: "'Bebas Neue', sans-serif" }}
+                    >
+                      Enter Support Portal
+                    </span>
+                    <span className="text-xs uppercase tracking-[0.2em] opacity-50" style={{ color: theme.textSecondary }}>
+                      Technical & Sales Assistance
+                    </span>
+                  </div>
+                </motion.div>
+              </Link>
             </motion.div>
           </div>
 
         </div>
       </div>
 
-      {/* Aesthetic Border Cut-off at the bottom */}
       <div 
         className="absolute bottom-0 left-0 w-full h-px opacity-20"
         style={{ backgroundColor: theme.divider }}
