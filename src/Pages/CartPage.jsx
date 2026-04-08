@@ -1,20 +1,16 @@
 /**
  * CartPage.jsx
  *
- * Dedicated cart page. Shows all cart items with:
- *   - Quantity stepper (− / +)
- *   - Remove item
- *   - Move to wishlist
- *   - Order summary with total
- *   - Clear all
+ * Updated with a fully responsive grid system.
+ * The sidebar stacks on mobile, and item cards adjust for narrow viewports.
  */
 
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../ThemeContext";
 import { useCartWishlist } from "../hooks/useCartWishlist";
 
-const dark_t  = { bg: "#0B0B0C", bgCard: "#16171A", border: "rgba(255,255,255,0.06)", text: "#C2C5CC", muted: "#7A7F87", divider: "rgba(255,255,255,0.06)" };
-const light_t = { bg: "#FAFAFA", bgCard: "#FFFFFF",  border: "#D9D9DE",               text: "#111111", muted: "#6E6E73", divider: "#E8E8ED" };
+const dark_t = { bg: "#0B0B0C", bgCard: "#16171A", border: "rgba(255,255,255,0.06)", text: "#C2C5CC", muted: "#7A7F87", divider: "rgba(255,255,255,0.06)" };
+const light_t = { bg: "#FAFAFA", bgCard: "#FFFFFF", border: "#D9D9DE", text: "#111111", muted: "#6E6E73", divider: "#E8E8ED" };
 
 function QtyButton({ onClick, children, dark }) {
   return (
@@ -41,20 +37,58 @@ export default function CartPage() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;600;700&display=swap');
         @keyframes cp-in { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+        
+        /* Responsive Overrides */
+        .cart-grid {
+          display: grid;
+          grid-template-columns: 1fr clamp(260px, 28%, 340px);
+          gap: clamp(20px, 3vw, 40px);
+          align-items: start;
+        }
+
+        .cart-item {
+          display: flex;
+          flex-wrap: wrap; /* Allows wrapping on very small screens */
+          gap: 16px;
+          padding: 16px;
+          align-items: center;
+        }
+
+        @media (max-width: 900px) {
+          .cart-grid {
+            grid-template-columns: 1fr;
+          }
+          .cart-summary {
+            position: static !important;
+            width: 100%;
+            box-sizing: border-box;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .cart-item {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+          .item-actions {
+            width: 100%;
+            flex-direction: row !important;
+            justify-content: space-between;
+            border-top: 1px solid ${t.divider};
+            padding-top: 12px;
+          }
+        }
       `}</style>
 
-         <div
-  style={{
-    minHeight: "100vh",
-    background: t.bg,
-    transition: "background 0.5s",
-    fontFamily: "'Barlow', sans-serif",
-    paddingTop: "clamp(64px, 8vh, 96px)", // 👈 space for navbar
-    paddingBottom: "80px",
-    boxSizing: "border-box",
-  }}
->
-
+      <div style={{
+        minHeight: "100vh",
+        background: t.bg,
+        transition: "background 0.5s",
+        fontFamily: "'Barlow', sans-serif",
+        paddingTop: "clamp(64px, 8vh, 96px)",
+        paddingBottom: "80px",
+        boxSizing: "border-box",
+      }}>
 
         {/* Header */}
         <div style={{ padding: "clamp(32px,5vw,64px) clamp(16px,5vw,72px) 0", display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
@@ -78,7 +112,7 @@ export default function CartPage() {
           )}
         </div>
 
-        {/* Empty */}
+        {/* Empty State */}
         {cart.length === 0 && (
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "100px 20px", gap: 16, textAlign: "center" }}>
             <div style={{ width: 64, height: 64, borderRadius: "50%", background: dark ? "rgba(194,197,204,0.05)" : "#F1F1F1", border: `1px solid ${t.border}`, display: "flex", alignItems: "center", justifyContent: "center", color: t.muted }}>
@@ -89,34 +123,32 @@ export default function CartPage() {
             </div>
             <p style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: "1.6rem", letterSpacing: "0.06em", color: t.text, margin: "0 0 4px" }}>Your cart is empty</p>
             <p style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.8rem", color: t.muted, margin: "0 0 20px" }}>Add some accessories to get started</p>
-            <button onClick={() => navigate("/products")} style={{ padding: "11px 24px", borderRadius: 3, border: "none", background: "#FF5A1F", color: "#fff", fontFamily: "'Barlow',sans-serif", fontSize: "0.65rem", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", cursor: "pointer" }}>
-              Browse Products
-            </button>
-            <button onClick={() => navigate("/accessories")} style={{ padding: "11px 24px", borderRadius: 3, border: "none", background: "#FF5A1F", color: "#fff", fontFamily: "'Barlow',sans-serif", fontSize: "0.65rem", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", cursor: "pointer" }}>
-              Browse Accessories
-            </button>
+            <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
+              <button onClick={() => navigate("/products")} style={{ padding: "11px 24px", borderRadius: 3, border: "none", background: "#FF5A1F", color: "#fff", fontFamily: "'Barlow',sans-serif", fontSize: "0.65rem", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", cursor: "pointer" }}>Browse Products</button>
+              <button onClick={() => navigate("/accessories")} style={{ padding: "11px 24px", borderRadius: 3, border: "none", background: "#FF5A1F", color: "#fff", fontFamily: "'Barlow',sans-serif", fontSize: "0.65rem", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", cursor: "pointer" }}>Browse Accessories</button>
+            </div>
           </div>
         )}
 
-        {/* Items + Summary */}
+        {/* Items + Summary Container */}
         {cart.length > 0 && (
-          <div style={{ padding: "clamp(24px,4vh,40px) clamp(16px,5vw,72px)", display: "grid", gridTemplateColumns: "1fr clamp(260px,28%,340px)", gap: "clamp(20px,3vw,40px)", alignItems: "start" }}>
+          <div className="cart-grid" style={{ padding: "clamp(24px,4vh,40px) clamp(16px,5vw,72px)" }}>
 
             {/* Item list */}
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {cart.map((item, i) => (
-                <div key={item.id} style={{ display: "flex", gap: 16, padding: 16, borderRadius: 10, background: t.bgCard, border: `1px solid ${t.border}`, animation: `cp-in 0.38s ease ${i * 60}ms both`, alignItems: "center" }}>
-                  {/* Image */}
+                <div key={item.id} className="cart-item" style={{ borderRadius: 10, background: t.bgCard, border: `1px solid ${t.border}`, animation: `cp-in 0.38s ease ${i * 60}ms both` }}>
+                  
+                  {/* Image Container */}
                   <div style={{ width: 80, height: 80, borderRadius: 8, overflow: "hidden", flexShrink: 0, background: dark ? "#0f1012" : "#F1F1F1", display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <img src={item.image} alt={item.name} style={{ width: "90%", height: "90%", objectFit: "contain" }} />
                   </div>
 
-                  {/* Info */}
-                  <div style={{ flex: 1, minWidth: 0 }}>
+                  {/* Info Section */}
+                  <div style={{ flex: 1, minWidth: "160px" }}>
                     <p style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: "1.2rem", letterSpacing: "0.04em", margin: "0 0 2px", color: t.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{item.name}</p>
                     <p style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.62rem", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", margin: "0 0 10px", color: "#FF5A1F" }}>{item.type}</p>
 
-                    {/* Qty stepper */}
                     <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                       <QtyButton onClick={() => updateQty(item.id, item.qty - 1)} dark={dark}>−</QtyButton>
                       <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: "1.1rem", color: t.text, minWidth: 20, textAlign: "center" }}>{item.qty}</span>
@@ -124,8 +156,8 @@ export default function CartPage() {
                     </div>
                   </div>
 
-                  {/* Right: price + actions */}
-                  <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 10, flexShrink: 0 }}>
+                  {/* Price + Actions Section */}
+                  <div className="item-actions" style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 10, flexShrink: 0 }}>
                     <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: "1.4rem", letterSpacing: "0.04em", color: t.text }}>
                       {item.price}
                       {item.qty > 1 && (
@@ -133,7 +165,6 @@ export default function CartPage() {
                       )}
                     </span>
                     <div style={{ display: "flex", gap: 6 }}>
-                      {/* Move to wishlist */}
                       <button
                         onClick={() => { addToWishlist(item); removeFromCart(item.id); }}
                         title={isInWishlist(item.id) ? "Already in wishlist" : "Move to wishlist"}
@@ -144,7 +175,6 @@ export default function CartPage() {
                       >
                         {isInWishlist(item.id) ? "Wishlisted" : "Wishlist"}
                       </button>
-                      {/* Remove */}
                       <button
                         onClick={() => removeFromCart(item.id)}
                         title="Remove from cart"
@@ -162,8 +192,8 @@ export default function CartPage() {
               ))}
             </div>
 
-            {/* Order summary */}
-            <div style={{ padding: 24, borderRadius: 10, background: t.bgCard, border: `1px solid ${t.border}`, position: "sticky", top: 24 }}>
+            {/* Order Summary Sidebar */}
+            <div className="cart-summary" style={{ padding: 24, borderRadius: 10, background: t.bgCard, border: `1px solid ${t.border}`, position: "sticky", top: 24 }}>
               <h2 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: "1.4rem", letterSpacing: "0.04em", margin: "0 0 20px", color: t.text }}>Order Summary</h2>
 
               <div style={{ display: "flex", flexDirection: "column", gap: 10, paddingBottom: 16, borderBottom: `1px solid ${t.divider}` }}>
@@ -190,15 +220,12 @@ export default function CartPage() {
                 onMouseEnter={e => { e.currentTarget.style.background = "#FF6A2E"; }}
                 onMouseLeave={e => { e.currentTarget.style.background = "#FF5A1F"; }}
                 onClick={() => navigate("/billing")}
-              >
-                Proceed to Checkout
-              </button>
+              > Proceed to Checkout </button>
+              
               <button onClick={() => navigate("/accessories")} style={{ width: "100%", marginTop: 10, padding: "11px 0", borderRadius: 3, border: `1px solid ${dark ? "rgba(194,197,204,0.12)" : "#D9D9DE"}`, background: "transparent", color: t.muted, fontFamily: "'Barlow',sans-serif", fontSize: "0.63rem", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", cursor: "pointer", transition: "border-color 0.2s, color 0.2s" }}
                 onMouseEnter={e => { e.currentTarget.style.borderColor = "#FF5A1F"; e.currentTarget.style.color = "#FF5A1F"; }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = dark ? "rgba(194,197,204,0.12)" : "#D9D9DE"; e.currentTarget.style.color = t.muted; }}
-              >
-                Continue Shopping
-              </button>
+              > Continue Shopping </button>
             </div>
           </div>
         )}

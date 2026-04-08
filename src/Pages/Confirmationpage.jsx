@@ -1,10 +1,8 @@
 /**
  * ConfirmationPage.jsx
  *
- * Reads order data from react-router location state (passed by BillingPage).
- * Shows a full printable cash memo / order receipt.
- *
- * Add route: <Route path="/confirmation" element={<ConfirmationPage />} />
+ * Fixed navbar overlap with dynamic padding.
+ * Full printable cash memo with premium Velt Drt styling.
  */
 
 import { useEffect, useRef } from "react";
@@ -98,10 +96,17 @@ export default function ConfirmationPage() {
         .cp-table tbody tr { border-top: 1px solid; }
       `}</style>
 
-      <div style={{ minHeight: "100vh", background: t.bg, transition: "background 0.5s", fontFamily: "'Barlow', sans-serif", paddingBottom: 80 }}>
+      <div style={{ 
+        minHeight: "100vh", 
+        background: t.bg, 
+        transition: "background 0.5s", 
+        fontFamily: "'Barlow', sans-serif", 
+        paddingTop: "clamp(80px, 12vh, 110px)", // 👈 Matches BillingPage fix
+        paddingBottom: 80 
+      }}>
 
         {/* ── Success banner ────────────────────────────── */}
-        <div className="cp-wrap cp-no-print" style={{ padding: "clamp(40px,6vw,72px) clamp(16px,5vw,72px) 0", display: "flex", flexDirection: "column", alignItems: "center", gap: 16, textAlign: "center", marginBottom: "clamp(24px,4vh,40px)" }}>
+        <div className="cp-wrap cp-no-print" style={{ padding: "0 clamp(16px,5vw,72px)", display: "flex", flexDirection: "column", alignItems: "center", gap: 16, textAlign: "center", marginBottom: "clamp(24px,4vh,40px)" }}>
 
           {/* Animated check ring */}
           <div style={{ position: "relative", width: 72, height: 72 }}>
@@ -152,7 +157,7 @@ export default function ConfirmationPage() {
         </div>
 
         {/* ── Cash Memo ─────────────────────────────────── */}
-        <div style={{ padding: "0 clamp(16px,5vw,72px)" }}>
+        <div style={{ padding: "0 clamp(12px, 3vw, 72px)", width: "100%", boxSizing: "border-box" }}>
           <div
             id="cp-memo"
             ref={memoRef}
@@ -162,18 +167,26 @@ export default function ConfirmationPage() {
               borderRadius: 12,
               overflow: "hidden",
               maxWidth: 860,
-              margin: "0 auto",
+              margin: "20px auto",
               boxShadow: dark ? "0 20px 60px rgba(0,0,0,0.5)" : "0 8px 40px rgba(0,0,0,0.08)",
             }}
           >
             {/* Memo header */}
-            <div style={{ padding: "28px 32px", background: dark ? "#0f1012" : "#FF5A1F", display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
-              <div>
+            <div style={{ 
+              padding: "clamp(20px, 4vw, 28px) clamp(20px, 4vw, 32px)", 
+              background: dark ? "#0f1012" : "#FF5A1F", 
+              display: "flex", 
+              alignItems: "flex-start", 
+              justifyContent: "space-between", 
+              flexWrap: "wrap", 
+              gap: 20 
+            }}>
+              <div style={{ minWidth: "200px" }}>
                 <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.62rem", fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", margin: "0 0 4px", color: dark ? "#FF5A1F" : "rgba(255,255,255,0.7)" }}>VELT DRT</p>
-                <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "2rem", letterSpacing: "0.06em", margin: 0, color: dark ? "#C2C5CC" : "#fff" }}>CASH MEMO</h2>
+                <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(1.5rem, 5vw, 2rem)", letterSpacing: "0.06em", margin: 0, color: dark ? "#C2C5CC" : "#fff" }}>CASH MEMO</h2>
                 <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.65rem", margin: "6px 0 0", color: dark ? "#7A7F87" : "rgba(255,255,255,0.7)", letterSpacing: "0.06em" }}>Tax Invoice / Order Receipt</p>
               </div>
-              <div style={{ textAlign: "right" }}>
+              <div style={{ textAlign: "left", alignSelf: "flex-end" }}>
                 <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "1rem", letterSpacing: "0.1em", margin: "0 0 4px", color: dark ? "#FF5A1F" : "#fff" }}>ORDER #{orderId}</p>
                 <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.65rem", margin: 0, color: dark ? "#7A7F87" : "rgba(255,255,255,0.75)", letterSpacing: "0.04em" }}>{orderDate}</p>
                 <div style={{ marginTop: 10, display: "inline-flex", alignItems: "center", gap: 6, padding: "4px 10px", borderRadius: 2, background: dark ? "rgba(255,90,31,0.12)" : "rgba(255,255,255,0.2)", border: dark ? "1px solid rgba(255,90,31,0.25)" : "1px solid rgba(255,255,255,0.3)" }}>
@@ -184,14 +197,20 @@ export default function ConfirmationPage() {
             </div>
 
             {/* Billing + shipping info */}
-            <div style={{ padding: "24px 32px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, borderBottom: `1px solid ${t.divider}` }}>
-              <div>
+            <div style={{ 
+              padding: "24px 32px", 
+              display: "flex", 
+              flexWrap: "wrap", 
+              gap: 32, 
+              borderBottom: `1px solid ${t.divider}` 
+            }}>
+              <div style={{ flex: "1 1 240px" }}>
                 <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.58rem", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", margin: "0 0 10px", color: "#FF5A1F" }}>Bill To</p>
                 <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.82rem", fontWeight: 700, margin: "0 0 4px", color: t.text }}>{billing.firstName} {billing.lastName}</p>
                 <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.72rem", margin: "0 0 2px", color: t.muted }}>{billing.email}</p>
                 <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.72rem", margin: "0 0 2px", color: t.muted }}>{billing.phone}</p>
               </div>
-              <div>
+              <div style={{ flex: "1 1 240px" }}>
                 <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.58rem", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", margin: "0 0 10px", color: "#FF5A1F" }}>Ship To</p>
                 <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.75rem", margin: "0 0 2px", color: t.text, lineHeight: 1.6 }}>
                   {billing.address}<br />
@@ -202,38 +221,38 @@ export default function ConfirmationPage() {
             </div>
 
             {/* Items table */}
-            <div style={{ padding: "0 32px" }}>
-              <table className="cp-table">
+            <div style={{ padding: "0 32px", overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
+              <table className="cp-table" style={{ width: "100%", minWidth: "600px", borderCollapse: "collapse" }}>
                 <thead>
                   <tr style={{ borderBottom: `2px solid ${t.divider}` }}>
-                    <th style={{ color: t.muted, padding: "14px 10px 10px 0" }}>#</th>
-                    <th style={{ color: t.muted }}>Item</th>
-                    <th style={{ color: t.muted }}>Type</th>
-                    <th className="right" style={{ color: t.muted }}>Unit Price</th>
-                    <th className="right" style={{ color: t.muted }}>Qty</th>
-                    <th className="right" style={{ color: t.muted, paddingRight: 0 }}>Total</th>
+                    <th style={{ textAlign: "left", color: t.muted, padding: "14px 10px 10px 0" }}>#</th>
+                    <th style={{ textAlign: "left", color: t.muted }}>Item</th>
+                    <th style={{ textAlign: "left", color: t.muted }}>Type</th>
+                    <th style={{ textAlign: "right", color: t.muted }}>Unit</th>
+                    <th style={{ textAlign: "right", color: t.muted }}>Qty</th>
+                    <th style={{ textAlign: "right", color: t.muted, paddingRight: 0 }}>Total</th>
                   </tr>
                 </thead>
                 <tbody>
                   {lineItems.map((item, i) => (
-                    <tr key={item.id} style={{ borderColor: t.divider }}>
-                      <td style={{ color: t.muted, paddingLeft: 0 }}>{String(i + 1).padStart(2, "0")}</td>
-                      <td>
+                    <tr key={item.id} style={{ borderBottom: `1px solid ${t.divider}` }}>
+                      <td style={{ color: t.muted, padding: "16px 0" }}>{String(i + 1).padStart(2, "0")}</td>
+                      <td style={{ padding: "16px 0" }}>
                         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                          <div style={{ width: 36, height: 36, borderRadius: 6, background: dark ? "#0B0B0C" : "#F4F4F6", overflow: "hidden", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                          <div style={{ width: 32, height: 32, borderRadius: 6, background: dark ? "#0B0B0C" : "#F4F4F6", overflow: "hidden", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
                             <img src={item.image || item.heroImage} alt={item.name} style={{ width: "85%", height: "85%", objectFit: "contain" }} />
                           </div>
                           <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.76rem", fontWeight: 700, color: t.text }}>{item.name}</span>
                         </div>
                       </td>
                       <td>
-                        <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.6rem", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", padding: "3px 8px", borderRadius: 2, color: "#FF5A1F", background: "rgba(255,90,31,0.08)", border: "1px solid rgba(255,90,31,0.2)" }}>
+                        <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.55rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", padding: "2px 6px", borderRadius: 2, color: "#FF5A1F", background: "rgba(255,90,31,0.08)", border: "1px solid rgba(255,90,31,0.2)" }}>
                           {item.type || item.category || "—"}
                         </span>
                       </td>
-                      <td className="right" style={{ color: t.text }}>{item.price}</td>
-                      <td className="right" style={{ color: t.text }}>{item.qty}</td>
-                      <td className="right" style={{ color: t.text, paddingRight: 0, fontWeight: 700 }}>${item.lineTotal.toFixed(2)}</td>
+                      <td style={{ textAlign: "right", color: t.text }}>{item.price}</td>
+                      <td style={{ textAlign: "right", color: t.text }}>{item.qty}</td>
+                      <td style={{ textAlign: "right", color: t.text, paddingRight: 0, fontWeight: 700 }}>${item.lineTotal.toFixed(2)}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -242,22 +261,18 @@ export default function ConfirmationPage() {
 
             {/* Totals */}
             <div style={{ padding: "20px 32px 28px", display: "flex", justifyContent: "flex-end" }}>
-              <div style={{ minWidth: 240, display: "flex", flexDirection: "column", gap: 8 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", gap: 32 }}>
+              <div style={{ width: "100%", maxWidth: 240, display: "flex", flexDirection: "column", gap: 8 }}>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
                   <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.7rem", color: t.muted }}>Subtotal</span>
                   <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.7rem", fontWeight: 700, color: t.text }}>${cartTotal.toFixed(2)}</span>
                 </div>
-                <div style={{ display: "flex", justifyContent: "space-between", gap: 32 }}>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
                   <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.7rem", color: t.muted }}>Delivery</span>
                   <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.7rem", fontWeight: 700, color: "#4CAF50" }}>Free</span>
                 </div>
-                <div style={{ display: "flex", justifyContent: "space-between", gap: 32 }}>
-                  <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.7rem", color: t.muted }}>Tax</span>
-                  <span style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.7rem", fontWeight: 700, color: t.text }}>Incl.</span>
-                </div>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 32, paddingTop: 10, borderTop: `2px solid ${t.divider}`, marginTop: 4 }}>
-                  <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "1.1rem", letterSpacing: "0.06em", color: t.text }}>Grand Total</span>
-                  <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "1.6rem", letterSpacing: "0.04em", color: "#FF5A1F" }}>${cartTotal.toFixed(2)}</span>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", paddingTop: 10, borderTop: `2px solid ${t.divider}`, marginTop: 4 }}>
+                  <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "1.1rem", color: t.text }}>Grand Total</span>
+                  <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "1.6rem", color: "#FF5A1F" }}>${cartTotal.toFixed(2)}</span>
                 </div>
               </div>
             </div>
@@ -271,11 +286,20 @@ export default function ConfirmationPage() {
             )}
 
             {/* Memo footer */}
-            <div style={{ padding: "16px 32px", borderTop: `1px solid ${t.divider}`, background: dark ? "rgba(255,255,255,0.02)" : "#FAFAFA", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
-              <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.62rem", color: t.muted, margin: 0, letterSpacing: "0.06em" }}>
+            <div style={{ 
+              padding: "16px 32px", 
+              borderTop: `1px solid ${t.divider}`, 
+              background: dark ? "rgba(255,255,255,0.02)" : "#FAFAFA", 
+              display: "flex", 
+              alignItems: "center", 
+              justifyContent: "space-between", 
+              flexWrap: "wrap", 
+              gap: 12 
+            }}>
+              <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.62rem", color: t.muted, margin: 0, maxWidth: "70%" }}>
                 Thank you for your order. Questions? Contact us through our website.
               </p>
-              <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "0.9rem", letterSpacing: "0.12em", color: dark ? "#FF5A1F" : "#FF5A1F", margin: 0 }}>
+              <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "0.9rem", letterSpacing: "0.12em", color: "#FF5A1F", margin: 0 }}>
                 VELT DRT
               </p>
             </div>
