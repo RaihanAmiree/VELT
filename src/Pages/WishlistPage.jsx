@@ -57,7 +57,8 @@ export default function WishlistPage() {
             </span>
           </div>
           {wishlist.length > 0 && (
-            <button onClick={clearWishlist} style={{ marginLeft: "auto", background: "none", border: `1px solid ${dark ? "rgba(194,197,204,0.12)" : "#D9D9DE"}`, borderRadius: 3, cursor: "pointer", padding: "7px 14px", fontFamily: "'Barlow',sans-serif", fontSize: "0.6rem", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: t.muted, transition: "border-color 0.2s, color 0.2s" }}
+            <button onClick={clearWishlist} 
+            style={{ marginLeft: "auto", background: "none", border: `1px solid ${dark ? "rgba(194,197,204,0.12)" : "#D9D9DE"}`, borderRadius: 3, cursor: "pointer", padding: "7px 14px", fontFamily: "'Barlow',sans-serif", fontSize: "0.6rem", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: t.muted, transition: "border-color 0.2s, color 0.2s" }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = "#e0445a"; e.currentTarget.style.color = "#e0445a"; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = dark ? "rgba(194,197,204,0.12)" : "#D9D9DE"; e.currentTarget.style.color = t.muted; }}
             >Clear All</button>

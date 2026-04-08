@@ -5,7 +5,7 @@
 
 import { useState, useEffect } from "react";
 import CarouselBase  from "./CarouselBase";
-import AccessoryCard from "./AccessoryCard";
+import AccessoryCard from "./Accessorycard";
 
 export default function AccessoriesCarousel({ accessories: propData }) {
   const [items, setItems] = useState(propData ?? null);
