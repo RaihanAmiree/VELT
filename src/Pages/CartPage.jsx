@@ -189,6 +189,7 @@ export default function CartPage() {
               <button style={{ width: "100%", padding: "13px 0", borderRadius: 3, border: "none", background: "#FF5A1F", color: "#fff", fontFamily: "'Barlow',sans-serif", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", cursor: "pointer", transition: "background 0.2s" }}
                 onMouseEnter={e => { e.currentTarget.style.background = "#FF6A2E"; }}
                 onMouseLeave={e => { e.currentTarget.style.background = "#FF5A1F"; }}
+                onClick={() => navigate("/billing")}
               >
                 Proceed to Checkout
               </button>

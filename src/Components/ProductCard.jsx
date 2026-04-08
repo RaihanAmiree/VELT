@@ -16,6 +16,12 @@ export default function ProductCard({ product }) {
   const [cartAdding, setCartAdding] = useState(false);
   const [heartPopped, setHeartPopped] = useState(false);
 
+  // Route is /product/:id  (singular — matches App.jsx)
+  const goToDetails = (e) => {
+    e?.stopPropagation();
+    navigate(`/product/${product.id}`);
+  };
+
   const handleCart = (e) => {
     e.stopPropagation();
     if (inCart) { removeFromCart(product.id); return; }
@@ -37,7 +43,7 @@ export default function ProductCard({ product }) {
 
         .pc-card {
           flex-shrink: 0;
-          width: clamp(240px, 28vw, 320px);
+          width: 100%;
           border-radius: 12px;
           overflow: hidden;
           cursor: pointer;
@@ -91,7 +97,6 @@ export default function ProductCard({ product }) {
           backdrop-filter: blur(6px);
         }
 
-        /* Wishlist heart */
         @keyframes pc-heart-pop {
           0%   { transform: scale(1); }
           40%  { transform: scale(1.45); }
@@ -108,7 +113,6 @@ export default function ProductCard({ product }) {
           transition: opacity 0.22s ease, transform 0.22s ease, background 0.22s ease;
         }
 
-        /* Cart spin */
         @keyframes pc-cart-spin { to { transform: rotate(360deg); } }
         @keyframes pc-cart-shimmer {
           from { transform: translateX(-100%); }
@@ -156,7 +160,6 @@ export default function ProductCard({ product }) {
           transition: color 0.3s;
         }
 
-        /* Footer row: cart btn + view details */
         .pc-footer {
           display: flex;
           align-items: stretch;
@@ -165,7 +168,6 @@ export default function ProductCard({ product }) {
           overflow: hidden;
         }
 
-        /* Cart icon button */
         .pc-cart-btn {
           flex-shrink: 0;
           width: 48px;
@@ -175,7 +177,6 @@ export default function ProductCard({ product }) {
           transition: background 0.25s, border-color 0.25s;
         }
 
-        /* View details button */
         .pc-btn {
           flex: 1;
           display: flex; align-items: center; justify-content: space-between;
@@ -211,7 +212,7 @@ export default function ProductCard({ product }) {
 
       <div
         className="pc-card"
-        onClick={() => navigate(`/product/${product.id}`)}
+        onClick={goToDetails}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         style={{
@@ -226,7 +227,7 @@ export default function ProductCard({ product }) {
               : "0 2px 12px rgba(0,0,0,0.05)",
         }}
       >
-        {/* ── Image area ───────────────────────────────── */}
+        {/* Image area */}
         <div className="pc-img-wrap" style={{ background: dark ? "#0f1012" : "#F1F1F1" }}>
           <span className="pc-badge">{product.category}</span>
 
@@ -279,7 +280,7 @@ export default function ProductCard({ product }) {
           )}
         </div>
 
-        {/* ── Body ─────────────────────────────────────── */}
+        {/* Body */}
         <div className="pc-body">
           <div>
             <h3 className="pc-name" style={{ color: dark ? "#C2C5CC" : "#111111" }}>{product.name}</h3>
@@ -301,7 +302,7 @@ export default function ProductCard({ product }) {
             </div>
           )}
 
-          {/* ── Footer: cart + view details ────────────── */}
+          {/* Footer: cart + view details */}
           <div
             className="pc-footer"
             style={{ borderColor: dark ? "rgba(194,197,204,0.07)" : "#D9D9DE" }}
@@ -320,7 +321,6 @@ export default function ProductCard({ product }) {
                     : (dark ? "rgba(194,197,204,0.04)" : "#F1F1F1"),
               }}
             >
-              {/* Shimmer on adding */}
               {cartAdding && (
                 <div style={{
                   position: "absolute", inset: 0,
@@ -340,7 +340,6 @@ export default function ProductCard({ product }) {
                     <path d="M12 2a10 10 0 0 1 10 10" />
                   </svg>
                 ) : inCart ? (
-                  // Checkmark — click to remove
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF5A1F" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
@@ -353,9 +352,10 @@ export default function ProductCard({ product }) {
               </div>
             </button>
 
-            {/* View details */}
+            {/* View details — explicit onClick so it works inside carousel too */}
             <button
               className="pc-btn"
+              onClick={goToDetails}
               style={{
                 background: dark ? "rgba(194,197,204,0.05)" : "#F1F1F1",
                 color: dark ? "#C2C5CC" : "#111111",

@@ -1,8 +1,13 @@
 import { useState } from "react";
 import { useTheme } from "../ThemeContext";
 import { darkTheme, lightTheme } from "../theme";
+import emailjs from "@emailjs/browser";
 
-// RESTORED: Your original Social SVG icons
+// 🔐 EMAILJS KEYS
+const SERVICE_ID = "service_7nkahdi";
+const TEMPLATE_ID = "template_bsuzgol"; // ⚠️ REPLACE THIS
+const PUBLIC_KEY = "ksRfueRgP3Crt3CtB";
+
 const socials = [
   { label: "YouTube", href: "#", icon: (<svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z" /></svg>) },
   { label: "Instagram", href: "#", icon: (<svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.2 4.8 1.7 5 5 .1 1.3.1 1.6.1 4.8s0 3.5-.1 4.8c-.2 3.3-1.7 4.8-5 5-1.3.1-1.6.1-4.9.1s-3.5 0-4.8-.1c-3.3-.2-4.8-1.7-5-5C2 16.5 2 16.2 2 12s0-3.5.1-4.8c.2-3.3 1.7-4.8 5-5C8.5 2.2 8.8 2.2 12 2.2zm0-2.2C8.7 0 8.3 0 7 .1 2.7.3.3 2.7.1 7 0 8.3 0 8.7 0 12s0 3.7.1 5c.2 4.3 2.6 6.7 7 6.9 1.3.1 1.7.1 5 .1s3.7 0 5-.1c4.3-.2 6.8-2.6 7-7 .1-1.3.1-1.7.1-5s0-3.7-.1-5C23.7 2.7 21.3.3 17 .1 15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4A6.2 6.2 0 0 0 12 5.8zm0 10.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.4 1.4 0 1 0 0 2.8 1.4 1.4 0 0 0 0-2.8z" /></svg>) },
@@ -22,11 +27,50 @@ const ContactSection = () => {
     message: "",
   });
 
+  const [sending, setSending] = useState(false);
+  const [status, setStatus] = useState("");
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!formData.name || !formData.email || !formData.phone) {
+      setStatus("Please fill all required fields.");
+      return;
+    }
+
+    setSending(true);
+    setStatus("");
+
+    try {
+      await emailjs.send(
+        SERVICE_ID,
+        TEMPLATE_ID,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          phone: formData.phone,
+          message: formData.message || "No message",
+        },
+        PUBLIC_KEY
+      );
+
+      setStatus("Message sent successfully ✅");
+      setFormData({ name: "", email: "", phone: "", message: "" });
+    } catch (err) {
+      console.error("EmailJS ERROR:", err);
+      setStatus("Failed to send message ❌");
+    } finally {
+      setSending(false);
+      // Optional: Clear status after 5 seconds
+      setTimeout(() => setStatus(""), 5000);
+    }
   };
 
   const inputStyle = {
@@ -99,15 +143,9 @@ const ContactSection = () => {
                 rel="noreferrer"
                 title={s.label}
                 style={{
-                  border: `1px solid ${
-                    dark ? "rgba(194,197,204,0.15)" : theme.cardBorder
-                  }`,
-                  background: dark
-                    ? "rgba(194,197,204,0.04)"
-                    : theme.bgSecondary,
-                  color: dark
-                    ? "rgba(194,197,204,0.55)"
-                    : theme.textPrimary,
+                  border: `1px solid ${dark ? "rgba(194,197,204,0.15)" : theme.cardBorder}`,
+                  background: dark ? "rgba(194,197,204,0.04)" : theme.bgSecondary,
+                  color: dark ? "rgba(194,197,204,0.55)" : theme.textPrimary,
                 }}
               >
                 {s.icon}
@@ -124,12 +162,13 @@ const ContactSection = () => {
             border: `1px solid ${theme.cardBorder}`,
           }}
         >
-          <form className="contact-form">
+          <form className="contact-form" onSubmit={handleSubmit}>
             <div className="form-row">
               <input
                 style={inputStyle}
                 className="themed-input"
                 name="name"
+                required
                 placeholder="Your Name *"
                 value={formData.name}
                 onChange={handleChange}
@@ -138,6 +177,8 @@ const ContactSection = () => {
                 style={inputStyle}
                 className="themed-input"
                 name="email"
+                type="email"
+                required
                 placeholder="Your Email *"
                 value={formData.email}
                 onChange={handleChange}
@@ -146,6 +187,7 @@ const ContactSection = () => {
                 style={inputStyle}
                 className="themed-input"
                 name="phone"
+                required
                 placeholder="Your Phone *"
                 value={formData.phone}
                 onChange={handleChange}
@@ -163,19 +205,31 @@ const ContactSection = () => {
             />
 
             <div className="form-actions">
+              {status && (
+                <span style={{ 
+                  marginRight: "15px", 
+                  fontSize: "14px",
+                  color: status.includes("successfully") ? "#4CAF50" : "#f44336" 
+                }}>
+                  {status}
+                </span>
+              )}
               <button
+                type="submit"
                 className="contact-submit-btn"
+                disabled={sending}
                 style={{
                   padding: "12px 32px",
                   background: theme.accent,
                   color: "#fff",
                   border: "none",
                   borderRadius: "8px",
-                  cursor: "pointer",
-                  fontWeight: "600"
+                  cursor: sending ? "not-allowed" : "pointer",
+                  fontWeight: "600",
+                  opacity: sending ? 0.7 : 1
                 }}
               >
-                Send Message
+                {sending ? "Sending..." : "Send Message"}
               </button>
             </div>
           </form>
@@ -253,20 +307,20 @@ const ContactSection = () => {
         }
 
         .form-actions {
-          text-align: right;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
         }
 
         .contact-submit-btn:hover {
           opacity: 0.9;
         }
 
-        /* SINGLE BORDER FOCUS NO SHADOW */
         .themed-input:focus {
           border-color: ${theme.accent} !important;
           box-shadow: none !important;
         }
 
-        /* Responsive View Fixes */
         @media (max-width: 992px) {
           .contact-container {
             grid-template-columns: 1fr;
@@ -278,6 +332,8 @@ const ContactSection = () => {
           }
 
           .form-actions {
+            flex-direction: column;
+            gap: 10px;
             text-align: center;
           }
           

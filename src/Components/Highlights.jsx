@@ -614,7 +614,7 @@ export default function Highlights() {
           }}
         >
           <Link
-            to={`/products/${product.id}/compare`}
+            to={'/comparison'}
             className="hl-btn hl-btn-ghost"
             style={{
               padding: isMobile ? "12px 20px" : "12px 28px",

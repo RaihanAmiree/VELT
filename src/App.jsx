@@ -16,7 +16,8 @@ import AccessoriesPage from './Pages/Accessories';
 import CartPage from './Pages/CartPage';
 import WishlistPage from './Pages/WishlistPage';
 import Toast from './Components/ui/Toast';
-
+import BillingPage from './Pages/Billingpage';
+import ConfirmationPage from './Pages/Confirmationpage';
 import { CartWishlistProvider } from './context/CartWishlistContext';
 
 const App = () => {
@@ -42,6 +43,8 @@ const App = () => {
             <Route path="/cart" element={<CartPage />} />
             <Route path="/wishlist" element={<WishlistPage />} />
             <Route path="*" element={<div>Page Not Found</div>} />
+            <Route path="/billing" element={<BillingPage />} />
+            <Route path="/confirmation" element={<ConfirmationPage />} />
           </Routes>
 
           <Footer />

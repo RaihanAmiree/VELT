@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useTheme } from "../ThemeContext";
+import Logo from "../assets/Logo.webp";
+
 
 const socials = [
   { label: "YouTube", href: "#", icon: (<svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z" /></svg>) },
@@ -196,7 +198,29 @@ export default function Footer() {
 
       <footer className={`footer-root ${dark ? "dark" : "light"}`}>
         <div className="footer-top">
-          <Link to="/" className="footer-logo">VELT</Link>
+          <Link to="/" className="flex items-center gap-3">
+  <img
+    src={Logo}
+    alt="VELT Logo"
+    style={{
+      height: "28px",
+      width: "auto",
+      filter: dark ? "brightness(0) invert(1)" : "none",
+    }}
+  />
+
+  <span
+    style={{
+      fontSize: "1.1rem",
+      fontWeight: 900,
+      letterSpacing: "0.18em",
+      textTransform: "uppercase",
+      color: "#C2C5CC",
+    }}
+  >
+    VELT DRT
+  </span>
+</Link>
           <div className="footer-socials">
             {socials.map(s => (
               <a key={s.label} href={s.href} className="social-btn" aria-label={s.label} target="_blank" rel="noreferrer">{s.icon}</a>
