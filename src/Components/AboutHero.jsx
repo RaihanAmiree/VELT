@@ -294,8 +294,8 @@ export default function AboutHero() {
           className="about-hero-bg"
           style={{
             backgroundImage: dark
-              ? "url('/Images/AboutHero.PNG')"
-              : "url('/Images/AboutHero-Light.PNG')",
+              ? "url('/Images/AboutHero.webp')"
+              : "url('/Images/AboutHero-Light.webp')",
           }}
         />
 
