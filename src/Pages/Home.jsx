@@ -13,10 +13,10 @@ const Home = () => {
   return (
     <div>
       <HeroCarousel></HeroCarousel>
-      <FeaturesSection></FeaturesSection>
       <Highlights></Highlights>
       <ProductsCarousel products={products} />
       <AccessoriesCarousel accessories={accessories} />
+      <FeaturesSection></FeaturesSection>
       <TestimonialSection></TestimonialSection>
     </div>
   )

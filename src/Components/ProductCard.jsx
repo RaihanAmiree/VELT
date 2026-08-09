@@ -19,7 +19,7 @@ export default function ProductCard({ product }) {
   // Route is /product/:id  (singular — matches App.jsx)
   const goToDetails = (e) => {
     e?.stopPropagation();
-    navigate(`/product/${product.id}`);
+    navigate(`/products/${product.id}`);
   };
 
   const handleCart = (e) => {

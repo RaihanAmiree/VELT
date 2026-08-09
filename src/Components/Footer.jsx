@@ -235,13 +235,13 @@ export default function Footer() {
               <div className="contact-icon">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.8 19.8 0 0 1 3.08 5.18 2 2 0 0 1 5.07 3h3a2 2 0 0 1 2 1.72c.13 1 .37 1.97.72 2.9a2 2 0 0 1-.45 2.11L9.09 11a16 16 0 0 0 6.91 6.91l1.27-1.27a2 2 0 0 1 2.11-.45c.93.35 1.9.59 2.9.72A2 2 0 0 1 22 16.92z" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </div>
-              <div><p className="contact-label">Hotline</p><p className="contact-value">+880 1700-123456</p></div>
+              <div><p className="contact-label">Hotline</p><p className="contact-value">+880 1533-661916</p></div>
             </div>
             <div className="contact-item">
               <div className="contact-icon">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14" strokeLinecap="round"/></svg>
               </div>
-              <div><p className="contact-label">Service Hotline</p><p className="contact-value">+880 1335-541654</p></div>
+              <div><p className="contact-label">Service Hotline</p><p className="contact-value">+880 1533-661916</p></div>
             </div>
           </div>
 

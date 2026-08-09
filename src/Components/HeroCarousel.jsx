@@ -106,10 +106,13 @@ export default function HeroCarousel() {
         .hero-eyebrow {
           font-family: 'Barlow', sans-serif; font-size: 0.7rem; font-weight: 700;
           letter-spacing: 0.28em; text-transform: uppercase;
-          color: #FF5A1F; margin-bottom: 18px;
+          color: ${dark ? "#FF5A1F" : "#6f6f73"}; 
+          margin-bottom: 18px;
           opacity: 0; transform: translateY(12px);
           animation: slideUp 0.6s ease 0.1s forwards;
         }
+
+        
 
         .hero-name {
           font-family: 'Bebas Neue', sans-serif;
@@ -137,7 +140,9 @@ export default function HeroCarousel() {
         }
 
         .hero-divider {
-          width: 48px; height: 1.5px; background: #FF5A1F; margin-bottom: 28px;
+          width: 48px; height: 1.5px; 
+          background: ${dark ? "#FF5A1F" : "#6f6f73"}; 
+          margin-bottom: 28px;
           opacity: 0; transform: scaleX(0); transform-origin: left;
           animation: growLine 0.5s ease 0.36s forwards;
         }
@@ -157,7 +162,7 @@ export default function HeroCarousel() {
           letter-spacing: 0.18em; text-transform: uppercase;
           color: ${dark ? "#C2C5CC" : "#111111"};
           background: transparent;
-          border: 1px solid rgba(255,90,31,0.5);
+          border: 1px solid ${dark ? "#FF5A1F" : "#4A4A4A"};
           padding: 13px 28px; display: inline-flex; align-items: center; gap: 12px;
           cursor: pointer; position: relative; overflow: hidden;
           opacity: 0; transform: translateY(10px);
@@ -166,11 +171,15 @@ export default function HeroCarousel() {
         }
         .hero-btn::before {
           content: ''; position: absolute; inset: 0;
-          background: #FF5A1F; transform: translateX(-101%);
+          background: ${dark ? "#FF5A1F" : "#4A4A4A"}; 
+          transform: translateX(-101%);
           transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
         }
         .hero-btn:hover::before { transform: translateX(0); }
-        .hero-btn:hover { gap: 18px; border-color: #FF5A1F; color: #fff; box-shadow: 0 0 24px rgba(255,90,31,0.3); }
+        .hero-btn:hover { gap: 18px; 
+        border-color: ${dark ? "#FF5A1F" : "#4A4A4A"}; 
+        color: #fff; 
+        box-shadow: 0 0 24px rgba(255,90,31,0.3); }
         .hero-btn span, .hero-btn svg { position: relative; z-index: 1; }
 
         @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
