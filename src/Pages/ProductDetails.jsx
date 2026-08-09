@@ -41,7 +41,7 @@ export default function ProductDetailPage() {
   {product.features && product.features.length > 0 && (
     <>
       <FeatureDetail features={product.features} />
-      <AccessoriesCarousel />
+      {/* <AccessoriesCarousel /> */}
     </>
   )}
 </>

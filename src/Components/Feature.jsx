@@ -4,25 +4,25 @@ import { useTheme } from "../ThemeContext";
 const features = [
   {
     title: "Zero Emissions",
-    desc: "Ride clean with 100% electric power. No fumes, no guilt — just pure, sustainable performance on every road.",
+    desc: "Pure Electric. Silent, emission-free performance. Just the quiet hum of progress and the freedom of a cleaner ride.",
     accent: false,
     icon: (<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" width="56" height="56"><circle cx="32" cy="32" r="28" /><path d="M20 32c0-6.6 5.4-12 12-12s12 5.4 12 12-5.4 12-12 12" /><path d="M32 20v4M32 40v4M20 32h4M40 32h4" /><path d="M26 26l12 12M38 26L26 38" strokeWidth="1.4" opacity="0.5" /></svg>),
   },
   {
-    title: "Cutting-Edge Tech",
-    desc: "Smart TFT dashboard, app connectivity, real-time diagnostics and over-the-air firmware updates.",
+    title: "Performance Refined Acceleration",
+    desc: "Exceptionally smooth power delivery with smart modes that balance performance and extended range.",
     accent: true,
     icon: (<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" width="56" height="56"><rect x="8" y="16" width="48" height="28" rx="4" /><path d="M24 44v6M40 44v6M18 50h28" /><path d="M20 28h6M20 34h6M32 28h12M32 34h8" /><circle cx="46" cy="24" r="2" fill="currentColor" /></svg>),
   },
   {
-    title: "Fast Charging",
-    desc: "0 to 80% in under 2 hours. Swap-ready battery system with charging stations across the city.",
+    title: "Charging",
+    desc: "Effortless Charging 0–80% in 2 to 2.5 hours.Simple, reliable home charging designed around your daily rhythm.",
     accent: false,
     icon: (<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" width="56" height="56"><path d="M20 8h16l-4 20h12L18 56l6-28H8L20 8z" /></svg>),
   },
   {
     title: "Safety First",
-    desc: "ABS braking, traction control, LED lighting, and 24/7 roadside support on every VELT model.",
+    desc: "ABS braking, precise traction control, and clear LED lighting that remains highly visible when breaking engineered for complete confidence.",
     accent: false,
     icon: (<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" width="56" height="56"><path d="M32 6l22 8v18c0 12-10 22-22 26C20 54 10 44 10 32V14L32 6z" /><path d="M22 32l7 7 13-13" /></svg>),
   },
