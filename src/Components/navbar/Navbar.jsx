@@ -232,7 +232,8 @@ const Navbar = () => {
 
               {[
                 {to:"/products",label:"Product"},
-                {to:"/accessories",label:"Accessories"},
+                // {to:"/accessories",label:"Accessories"},
+                {to:"/comparison",label:"Comparison"},
                 {to:"/about",label:"About Us"},
                 {to:"/support",label:"Service Support"},
               ].map(({to,label})=>(
